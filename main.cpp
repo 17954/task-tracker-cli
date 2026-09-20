@@ -109,13 +109,13 @@ int main(int argc,char* argv[]){
         std::cout<<"Task added successfully. ID:"<<task.id<<"\n";
     }
     else if(command=="list"){
-        if(TaskList.empty()){
-            std::cout<<"No tasks found.\n";
-        }
         if(argc==2){
             for(const Task&task:TaskList){
                 printTask(task);
             }
+            if(TaskList.empty()){
+                std::cout<<"No tasks found.\n";
+            } 
         }
         else if(argc==3){
             auto status=stringToStatus(argv[2]);
@@ -123,9 +123,15 @@ int main(int argc,char* argv[]){
                 std::cerr<<"Invalid status.\n";
                 return 1;
             }
+            bool found=false;
             for(const Task&task:TaskList){
-                if(task.status==*status)
+                if(task.status==*status){
                     printTask(task);
+                    found=true;
+                }
+            }
+            if(!found){
+                std::cout<<"No tasks found.\n";
             }
         }
         else{
