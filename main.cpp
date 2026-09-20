@@ -7,19 +7,9 @@
 #include<vector>
 #include<optional>
 #include<exception>
+#include "Task.h"
 
-enum class Status{
-	Todo,
-	InProgress,
-	Done
-};
-struct Task{
-	int id;
-	std::string description;
-	Status status;
-	std::string createdAt;
-	std::string updatedAt;
-};
+
 std::vector<Task>TaskList;
 
 std::string getCurrentTime(){
@@ -145,10 +135,8 @@ Task* findTaskById(int id){
     return nullptr;
 }
 bool isSupportedDescription(const std::string&text){
-    if(!text.find_first_of("\"\\\n\r{}")){
-        return true;
-    }
-    return false;
+    // find_first_of 返回位置，找到特殊字符返回位置，没找到返回std::string::npos
+    return text.find_first_of("\"\\\n\r{}")==std::string::npos;
 }
 bool saveTasks(const std::vector<Task>&TaskList){
     std::ofstream file("tasks.json");
@@ -267,10 +255,12 @@ int main(int argc,char* argv[]){
         task.status=Status::Todo;
         task.createdAt=task.updatedAt=NowTime;
         TaskList.push_back(task);
-
+        
         if (!saveTasks(TaskList)) {
             return 1;
-}
+        }
+
+        std::cout<<"Task added successfully. ID:"<<task.id<<"\n";
     }
     else if(command=="list"){
         if(TaskList.empty()){
@@ -313,7 +303,7 @@ int main(int argc,char* argv[]){
                 
             if (!saveTasks(TaskList)) {
                 return 1;
-}
+            }
             std::cout<<"Mark-done success.\n";
                 
         }
@@ -338,7 +328,7 @@ int main(int argc,char* argv[]){
                 
             if (!saveTasks(TaskList)) {
                 return 1;
-}
+            }
             std::cout<<"Mark-in-progress success.\n";               
         }
         else{
@@ -371,7 +361,7 @@ int main(int argc,char* argv[]){
             task->updatedAt=getCurrentTime();
             if (!saveTasks(TaskList)) {
                 return 1;
-}
+            }
             std::cout<<"Update success.\n";
                 
         }
@@ -400,7 +390,7 @@ int main(int argc,char* argv[]){
             else{
                 if (!saveTasks(TaskList)) {
                     return 1;
-}
+                }
                 std::cout<<"Delete success.\n";
             }
                 
