@@ -23,28 +23,7 @@ std::string getCurrentTime(){
     // std::string 只保存最终的字符内容
     return result;
 }
-std::string statusToString(Status status){
-    switch (status){
-        case Status::Todo:
-            return "todo";
-        case Status::InProgress:
-            return "in-progress";
-        case Status::Done:
-            return "done";
-        default:
-            return "";
-    }
-}
-std::optional<Status> stringToStatus(const std::string& str){
-    if(str=="todo") 
-        return Status::Todo;
-    else if(str=="in-progress")
-        return Status::InProgress;
-    else if(str=="done")
-        return Status::Done;
-    else
-        return std::nullopt;
-}
+
 void printTask(const Task &task){
     std::cout<<"id : "<<task.id<<std::endl
         <<"description : "<<task.description<<std::endl

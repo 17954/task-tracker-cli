@@ -2,6 +2,7 @@
 #define TASK_H
 
 #include <string>
+#include <optional>
 
 enum class Status{
 	Todo,
@@ -15,5 +16,8 @@ struct Task{
 	std::string createdAt;
 	std::string updatedAt;
 };
+
+std::string statusToString(Status status);
+std::optional<Status> stringToStatus(const std::string& str);
 
 #endif
